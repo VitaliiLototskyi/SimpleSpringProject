@@ -1,0 +1,16 @@
+bin/
+build/
+.project
+.settings/
+classes/
+/logs/
+.idea
+.classpath
+.gradle/
+docker/logs
+docker/src
+docker/elasticsearch/data
+
+*.iml
+kafkaESConsumerLocal.properties
+dependency-reduced-pom.xml
