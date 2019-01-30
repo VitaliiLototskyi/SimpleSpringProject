@@ -145,7 +145,7 @@ public class Message {
         countries.add("Houston");
         countries.add("Phoenix");
         countries.add("Philadelphia");
-        countries.add("SaN Antonio");
+        countries.add("San Antonio");
         countries.add("San Diego");
         countries.add("Dallas");
         countries.add("San Jose");

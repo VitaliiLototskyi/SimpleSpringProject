@@ -21,8 +21,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
@@ -35,7 +37,6 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 public class Controller {
     public static void main(String[] args) throws IOException {
         Message message = new Message();
-
 
         for (Message msg : message.generateMessages(loadFromProperties())) {
             System.out.println(msg.toString());
@@ -50,23 +51,20 @@ public class Controller {
             System.out.println("cant find " + file);
         }
         properties.load(in);
-        int countOfMessages = Integer.parseInt(properties.getProperty("number.of.messages"));
 
-        return countOfMessages;
+        return Integer.parseInt(properties.getProperty("number.of.messages"));
     }
 
     public static Message mapToObject(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(json, Message.class);
 
-        return message;
+        return mapper.readValue(json, Message.class);
     }
 
     public static String mapToJson(Message message) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        String fromObjToString = mapper.writeValueAsString(message);
 
-        return fromObjToString;
+        return mapper.writeValueAsString(message);
     }
 
     public static IndexResponse toIndex(String indexName, String json) throws IOException {
