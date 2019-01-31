@@ -1,5 +1,7 @@
 package elastic;
 
+import beans.PropertyReader;
+import jdk.nashorn.internal.objects.annotations.Property;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -12,20 +14,45 @@ import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+import spring.demo.SpringDemo;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class Controller {
-    public static void main(String[] args) throws IOException {
-        Message message = new Message();
+    @Autowired
+    private PropertyReader propertyReader;
 
-        for (Message msg : message.generateMessages(loadFromProperties())) {
-            System.out.println(msg.toString());
-        }
+    public int read() {
+        String s = propertyReader.getValue();
+        return Integer.parseInt(s);
+    }
+
+    public static void main(String[] args) throws IOException {
+        Controller controller = new Controller();
+        System.out.println(controller.read());
+
+//        List<String> jsonList = new ArrayList<>();
+//        List<Message> msgList = new ArrayList<>();
+//        for (Message msg : message.generateMessages()) {
+//            jsonList.add(Controller.mapToJson(msg));
+//        }
+//        System.out.println(jsonList.toString());
+//
+//        for (String s : jsonList) {
+//            msgList.add(Controller.mapToObject(s));
+//        }
     }
 
     public static int loadFromProperties() throws IOException {
