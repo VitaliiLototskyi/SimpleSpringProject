@@ -8,6 +8,9 @@
     <!-- <context:component-scan base-package="spring.basics"/> -->
 
     <context:annotation-config/>
-    <context:component-scan base-package="spring.demo, beans, elastic"/>
+    <context:component-scan base-package="beans, spring.demo, elastic"/>
     <context:property-placeholder location="application.properties"/>
+    <beans>
+        <bean id="controller" class="elastic.Controller"/>
+    </beans>
 </beans>

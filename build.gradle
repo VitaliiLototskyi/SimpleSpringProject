@@ -18,6 +18,6 @@ dependencies {
     compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.5.0'
     compile group: 'org.elasticsearch.client', name: 'transport', version: '5.5.0'
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: '5.5.0'
-    compile group: 'org.springframework', name: 'spring-context', version: '4.2.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.3.4.RELEASE'
 
 }
