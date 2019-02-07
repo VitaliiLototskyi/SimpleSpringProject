@@ -2,33 +2,34 @@ package beans;
 
 import elastic.Controller;
 import elastic.Message;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Component("springTest")
 public class SpringTest {
     @Autowired
     private Controller controller;
+    private static int counter = 0;
 
-    public void generateAndSend() throws IOException {
+    @SuppressWarnings("unchecked")
+    public void generateAndSendToKafka() throws IOException, ExecutionException, InterruptedException {
         Message message = new Message();
-        List<String> jsonList = new ArrayList<>();
-        System.out.println("Generating messages....");
+        KafkaProducer<String, String> producer = ProducerForKafka.createProducer();
+        System.out.println("Generating " + controller.read() + " messages");
         for (Message m : message.generateMessages(controller.read())) {
-            jsonList.add(controller.mapToJson(m));
-        }
-        System.out.println("Sending messages");
-        for (String s : jsonList) {
-            controller.toIndex("million", s);
+            producer.send(new ProducerRecord("my_log_topic", controller.mapToJson(m))).get();
+            counter++;
+            if (counter % 10000 == 0) {
+                System.out.println("Sended " + counter + " messages");
+            }
         }
         System.out.println("Completed");
-
+        producer.close();
     }
+
 }

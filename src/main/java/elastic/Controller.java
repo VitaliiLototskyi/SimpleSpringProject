@@ -2,9 +2,11 @@ package elastic;
 
 import beans.PropertyReader;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Setting;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -19,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class Controller {
@@ -28,18 +32,6 @@ public class Controller {
     public int read() {
         String s = propertyReader.getValue();
         return Integer.parseInt(s);
-    }
-
-    public int loadFromProperties() throws IOException {
-        Properties properties = new Properties();
-        String file = "application.properties";
-        InputStream in = Controller.class.getClassLoader().getResourceAsStream(file);
-        if (in == null) {
-            System.out.println("cant find " + file);
-        }
-        properties.load(in);
-
-        return Integer.parseInt(properties.getProperty("number.of.messages"));
     }
 
     public Message mapToObject(String json) throws IOException {
@@ -55,7 +47,9 @@ public class Controller {
     }
 
     public IndexResponse toIndex(String indexName, String json) throws IOException {
-        TransportClient client = new PreBuiltTransportClient(Settings.EMPTY)
+        Settings settings = Settings.builder().put("cluster.name", "KafkaESCluster").build();
+
+        TransportClient client = new PreBuiltTransportClient(settings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
 
         IndexResponse response = client.prepareIndex(indexName, "event")
@@ -65,8 +59,11 @@ public class Controller {
         return response;
     }
 
+
     public void toDeleteList(String indexName, String searchByField, String searchByValue) throws UnknownHostException {
-        TransportClient client = new PreBuiltTransportClient(Settings.EMPTY)
+        Settings settings = Settings.builder().put("cluster.name", "KafkaESCluster").build();
+
+        TransportClient client = new PreBuiltTransportClient(settings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
 
         BulkByScrollResponse response = DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
