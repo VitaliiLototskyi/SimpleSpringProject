@@ -7,62 +7,72 @@ import java.util.UUID;
 
 public class Message {
     private int id;
-    private String clientIP;
-    private Date sentTime;
+    private String client_ip;
+    private String sent_time;
     private String uuid;
-    private String requestURL;
-    private String responseCode;
-    private Integer fileSize;
+    private String request_url;
+    private String response_code;
+    private Integer file_size;
     private String client_location;
     private String browser;
 
     public Message() {
     }
 
-    public List<Message> generateMessages(int numberOfMessage) {
-        List<Message> messages = new ArrayList<>();
-        for (int i = 0; i < numberOfMessage; i++) {
-            Message message = new Message();
-            message.setBrowser(this.clientBrowser());
-            message.setId((int) (Math.random() * 1000000));
-            message.setClientIP(randomIP());
-            message.setSentTime(new Date());
-            message.setUuid(String.valueOf(UUID.randomUUID()));
-            message.setRequestURL("elasticSearch" + message.getId());
-            message.setResponseCode("OK");
-            message.setFileSize((int) (Math.random() * 10));
-            message.setClient_location(clientLocation());
-            messages.add(message);
-        }
-
-        return messages;
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public String toString() {
-        return "Message{" +
-                "id='" + id + '\'' +
-                ", clientIP='" + clientIP + '\'' +
-                ", sentTime=" + sentTime +
-                ", uuid='" + uuid + '\'' +
-                ", requestURL='" + requestURL + '\'' +
-                ", responseCode='" + responseCode + '\'' +
-                ", fileSize=" + fileSize +
-                ", client_location='" + client_location + '\'' +
-                ", browser='" + browser + '\'' +
-                '}';
-    }
-
-    public Message(int id, String clientIP, Date sentTime, String uuid, String requestURL, String responseCode, Integer fileSize, String client_location, String browser) {
+    public void setId(int id) {
         this.id = id;
-        this.clientIP = clientIP;
-        this.sentTime = sentTime;
+    }
+
+    public String getClient_ip() {
+        return client_ip;
+    }
+
+    public void setClient_ip(String client_ip) {
+        this.client_ip = client_ip;
+    }
+
+    public String getSent_time() {
+        return sent_time;
+    }
+
+    public void setSent_time(String sent_time) {
+        this.sent_time = sent_time;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
         this.uuid = uuid;
-        this.requestURL = requestURL;
-        this.responseCode = responseCode;
-        this.fileSize = fileSize;
-        this.client_location = client_location;
-        this.browser = browser;
+    }
+
+    public String getRequest_url() {
+        return request_url;
+    }
+
+    public void setRequest_url(String request_url) {
+        this.request_url = request_url;
+    }
+
+    public String getResponse_code() {
+        return response_code;
+    }
+
+    public void setResponse_code(String response_code) {
+        this.response_code = response_code;
+    }
+
+    public Integer getFile_size() {
+        return file_size;
+    }
+
+    public void setFile_size(Integer file_size) {
+        this.file_size = file_size;
     }
 
     public String getClient_location() {
@@ -81,61 +91,25 @@ public class Message {
         this.browser = browser;
     }
 
-    public int getId() {
-        return id;
+    public List<Message> generateMessages(int numberOfMessage) {
+        List<Message> messages = new ArrayList<>();
+        for (int i = 0; i < numberOfMessage; i++) {
+            Message message = new Message();
+            message.setBrowser(this.clientBrowser());
+            message.setId((int) (Math.random() * 1000000));
+            message.setClient_ip(randomIP());
+            message.setSent_time(new Date().toString());
+            message.setUuid(String.valueOf(UUID.randomUUID()));
+            message.setRequest_url("elasticSearch" + message.getId());
+            message.setResponse_code("OK");
+            message.setFile_size((int) (Math.random() * 10));
+            message.setClient_location(clientLocation());
+            messages.add(message);
+        }
+
+        return messages;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getClientIP() {
-        return clientIP;
-    }
-
-    public void setClientIP(String clientIP) {
-        this.clientIP = clientIP;
-    }
-
-    public Date getSentTime() {
-        return sentTime;
-    }
-
-    public void setSentTime(Date sentTime) {
-        this.sentTime = sentTime;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getRequestURL() {
-        return requestURL;
-    }
-
-    public void setRequestURL(String requsetURL) {
-        this.requestURL = requsetURL;
-    }
-
-    public String getResponseCode() {
-        return responseCode;
-    }
-
-    public void setResponseCode(String responseCode) {
-        this.responseCode = responseCode;
-    }
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(Integer fileSize) {
-        this.fileSize = fileSize;
-    }
 
     public String clientLocation() {
         List<String> countries = new ArrayList<>();
@@ -195,5 +169,20 @@ public class Message {
         String IP = firstNumber + "." + secondNumber + "." + thirdNumber + "." + fourthNumber;
 
         return IP;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", client_ip='" + client_ip + '\'' +
+                ", sent_time=" + sent_time +
+                ", uuid='" + uuid + '\'' +
+                ", request_url='" + request_url + '\'' +
+                ", response_code='" + response_code + '\'' +
+                ", file_size=" + file_size +
+                ", client_location='" + client_location + '\'' +
+                ", browser='" + browser + '\'' +
+                '}';
     }
 }
