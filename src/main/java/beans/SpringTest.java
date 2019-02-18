@@ -2,15 +2,22 @@ package beans;
 
 import elastic.Controller;
 import elastic.Message;
+import elastic.SimpleAgent;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Component("springTest")
@@ -46,7 +53,6 @@ public class SpringTest {
             controller.toIndex("kafkaesindex", controller.mapToJson(m));
         }
         System.out.println("Completed");
-
         System.out.println(controller.CountIndexes("kafkaesindex"));
     }
 
@@ -57,7 +63,7 @@ public class SpringTest {
         }
         System.out.println("Success");
     }
-    
+
     public void saveToPostgresDB(Message message) throws SQLException {
         String query = "insert into message(id,client_ip, sent_time, uuid, request_url, response_code, file_size," +
                 " client_location, browser)values(?,?,?,?,?,?,?,?,?)";
@@ -75,4 +81,17 @@ public class SpringTest {
         ps.executeUpdate();
     }
 
+    public void receiveMsg() {
+        System.out.println("Start receiving messages....");
+        ConsumerForKafka.runComsumer();
+        System.out.println("Completed");
+    }
+
+    public void startMBeanServerTest() throws InterruptedException, MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException {
+        Message message = new Message();
+        List<Message> messageList = new ArrayList<>(message.generateMessages(6));
+        for(Message m : messageList) {
+            SimpleAgent agent = new SimpleAgent(m);
+        }
+    }
 }

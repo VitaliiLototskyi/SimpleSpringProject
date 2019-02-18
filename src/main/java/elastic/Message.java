@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class Message {
+public class Message implements MessageMBean {
+
     private int id;
     private String client_ip;
     private String sent_time;
@@ -109,7 +110,6 @@ public class Message {
 
         return messages;
     }
-
 
     public String clientLocation() {
         List<String> countries = new ArrayList<>();
