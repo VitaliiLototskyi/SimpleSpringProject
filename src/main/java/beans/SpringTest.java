@@ -56,6 +56,10 @@ public class SpringTest {
         System.out.println(controller.CountIndexes("kafkaesindex"));
     }
 
+    public void createTopic() {
+        controller.createTopic();
+    }
+
     public void generateMessageForDB() throws SQLException {
         Message message = new Message();
         for (Message m : message.generateMessages(3)) {
@@ -90,7 +94,7 @@ public class SpringTest {
     public void startMBeanServerTest() throws InterruptedException, MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException {
         Message message = new Message();
         List<Message> messageList = new ArrayList<>(message.generateMessages(6));
-        for(Message m : messageList) {
+        for (Message m : messageList) {
             SimpleAgent agent = new SimpleAgent(m);
         }
     }

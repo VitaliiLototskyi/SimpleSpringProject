@@ -1,17 +1,11 @@
 package beans;
 
-import elastic.Controller;
 import elastic.Record;
 import elastic.SimpleAgent;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanRegistrationException;
-import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -40,7 +34,6 @@ public class ConsumerForKafka {
         final int giveUp = 100;
         int noRecordsCount = 0;
         Record recordMBean = new Record();
-
         while (true) {
             final ConsumerRecords<Long, String> consumerRecords = consumer.poll(1000);
             if (consumerRecords.count() == 0) {

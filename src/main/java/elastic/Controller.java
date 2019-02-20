@@ -1,6 +1,8 @@
 package elastic;
 
 import beans.PropertyReader;
+import org.apache.kafka.clients.admin.*;
+import org.apache.kafka.common.errors.TopicExistsException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -18,6 +20,9 @@ import org.elasticsearch.xpack.client.PreBuiltXPackTransportClient;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class Controller {
     @Autowired
@@ -55,6 +60,28 @@ public class Controller {
         client.close();
 
         return response;
+    }
+
+    public void createTopic () {
+        final String topicName = "test";
+        Properties props = new Properties();
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        try (final AdminClient adminClient = AdminClient.create(props)) {
+            try {
+                // Define topic
+                NewTopic newTopic = new NewTopic(topicName, 1, (short)1);
+
+                // Create topic, which is async call.
+                final CreateTopicsResult createTopicsResult = adminClient.createTopics(Collections.singleton(newTopic));
+
+                // Since the call is Async, Lets wait for it to complete.
+                createTopicsResult.values().get(topicName).get();
+            } catch (InterruptedException | ExecutionException e) {
+                if (!(e.getCause() instanceof TopicExistsException))
+                    throw new RuntimeException(e.getMessage(), e);
+            }
+        }
     }
 
     public void toDeleteList(String indexName, String searchByField, String searchByValue) throws UnknownHostException {
