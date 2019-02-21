@@ -1,7 +1,10 @@
 package elastic;
 
 import beans.PropertyReader;
-import org.apache.kafka.clients.admin.*;
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.CreateTopicsResult;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.errors.TopicExistsException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.index.IndexResponse;
@@ -14,8 +17,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
 import org.elasticsearch.search.SearchHits;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.elasticsearch.xpack.client.PreBuiltXPackTransportClient;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -62,7 +65,7 @@ public class Controller {
         return response;
     }
 
-    public void createTopic () {
+    public void createTopic() {
         final String topicName = "test";
         Properties props = new Properties();
         props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -70,7 +73,7 @@ public class Controller {
         try (final AdminClient adminClient = AdminClient.create(props)) {
             try {
                 // Define topic
-                NewTopic newTopic = new NewTopic(topicName, 1, (short)1);
+                NewTopic newTopic = new NewTopic(topicName, 1, (short) 1);
 
                 // Create topic, which is async call.
                 final CreateTopicsResult createTopicsResult = adminClient.createTopics(Collections.singleton(newTopic));

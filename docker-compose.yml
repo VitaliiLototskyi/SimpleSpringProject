@@ -1,0 +1,55 @@
+version: '3.5'
+services:
+  zookeeper:
+    image: zookeeper:3.4.9
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka:2.11-0.10.2.2
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "my_log_topic:1:1"
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+    environment:
+      - cluster.name=KafkaESCluster
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.ml.enabled=false
+      - xpack.graph.enabled=false
+      - xpack.watcher.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.6.0
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+
+  db:
+    image: postgres
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+
+  app:
+    build: .
+    stdin_open: true
+    tty: true
+    ports:
+      - "5000:5000"
+

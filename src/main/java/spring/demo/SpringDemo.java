@@ -1,6 +1,7 @@
 package spring.demo;
 
 import beans.SpringTest;
+import elastic.Controller;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -19,7 +20,7 @@ public class SpringDemo {
         String confFile = "application-context.xml";
         ApplicationContext context = new ClassPathXmlApplicationContext(confFile);
         SpringTest sft = (SpringTest) context.getBean("springTest");
-//        sft.generateAndSendToKafka();
-        sft.receiveMsg();
+        sft.generateAndSendToKafka();
+//        sft.receiveMsg();
     }
 }

@@ -42,6 +42,7 @@ ospackage {
     release = '1'
     arch = NOARCH
     os = LINUX
+    user 'root'
 
     requires('java')
 
