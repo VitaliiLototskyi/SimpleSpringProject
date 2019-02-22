@@ -40,9 +40,11 @@ ospackage {
     packageName = 'vlotot'
     version = '1.0.0'
     release = '1'
-    arch = NOARCH
+//    arch = NOARCH
     os = LINUX
-    user 'root'
+    user 'ta'
+    permissionGroup 'ta'
+    packageGroup 'ta'
 
     requires('java')
 
@@ -58,4 +60,12 @@ ospackage {
 
 buildRpm {
     link('/usr/local/bin/vlotot', '/opt/vlotot/bin/vlotot.sh')
+}
+
+task dockerBuild(type:Exec) {
+    commandLine 'docker-compose', '-f', 'docker-compose.yml', 'build'
+}
+
+task dockerStart(type:Exec) {
+    commandLine 'docker-compose', '-f', 'docker-compose.yml', 'up'
 }
