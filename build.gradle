@@ -12,11 +12,13 @@ plugins {
     id 'nebula.ospackage' version '3.4.0'
     id 'java'
 }
+
 jar {
     manifest {
-        attributes(
-                'Main-Class': 'entrypoint.SpringSendMessages'
-        )
+        attributes 'Main-Class' : 'main.SendMessages'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 

@@ -17,6 +17,6 @@ public class SendMessages {
         String confFile = "application-context.xml";
         ApplicationContext context = new ClassPathXmlApplicationContext(confFile);
         SpringTest sft = (SpringTest) context.getBean("springTest");
-        sft.receiveMsg();
+        sft.generateAndSendToKafka();
     }
 }
