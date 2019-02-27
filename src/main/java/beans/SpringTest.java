@@ -25,11 +25,6 @@ public class SpringTest {
     @Autowired
     private Controller controller;
     private static int counter = 0;
-    private Connection connection;
-
-    public SpringTest() throws SQLException, ClassNotFoundException {
-        this.connection = new DBConnection().getConnection();
-    }
 
     @SuppressWarnings("unchecked")
     public void generateAndSendToKafka() throws IOException, ExecutionException, InterruptedException {
@@ -60,7 +55,7 @@ public class SpringTest {
         controller.createTopic();
     }
 
-    public void generateMessageForDB() throws SQLException {
+    public void generateMessageForDB() throws SQLException, ClassNotFoundException {
         Message message = new Message();
         for (Message m : message.generateMessages(3)) {
             saveToPostgresDB(m);
@@ -68,11 +63,11 @@ public class SpringTest {
         System.out.println("Success");
     }
 
-    public void saveToPostgresDB(Message message) throws SQLException {
+    public void saveToPostgresDB(Message message) throws SQLException, ClassNotFoundException {
         String query = "insert into message(id,client_ip, sent_time, uuid, request_url, response_code, file_size," +
                 " client_location, browser)values(?,?,?,?,?,?,?,?,?)";
 
-        PreparedStatement ps = connection.prepareStatement(query);
+        PreparedStatement ps = new DBConnection().getConnection().prepareStatement(query);
         ps.setInt(1, message.getId());
         ps.setString(2, message.getClient_ip());
         ps.setString(3, message.getSent_time());

@@ -12,7 +12,13 @@ plugins {
     id 'nebula.ospackage' version '3.4.0'
     id 'java'
 }
-
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'entrypoint.SpringSendMessages'
+        )
+    }
+}
 
 repositories {
     mavenCentral()

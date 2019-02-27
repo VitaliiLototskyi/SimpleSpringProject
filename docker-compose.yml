@@ -46,10 +46,10 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
 
-  app:
-    build: .
-    stdin_open: true
-    tty: true
-    ports:
-      - "5000:5000"
+#  app:
+#    build: .
+#    stdin_open: true
+#    tty: true
+#    ports:
+#      - "5000:5000"
 
