@@ -14,3 +14,4 @@ docker/elasticsearch/data
 *.iml
 kafkaESConsumerLocal.properties
 dependency-reduced-pom.xml
+out
