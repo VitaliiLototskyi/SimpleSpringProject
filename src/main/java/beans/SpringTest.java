@@ -30,8 +30,10 @@ public class SpringTest {
     public void generateAndSendToKafka() throws IOException, ExecutionException, InterruptedException {
         Message message = new Message();
         KafkaProducer<String, String> producer = ProducerForKafka.createProducer();
-        System.out.println("Generating " + controller.read() + " messages");
-        for (Message m : message.generateMessages(controller.read())) {
+        System.out.println("Generating " + " messages");
+        List<Message> messages = new ArrayList<>(message.generateMessages(controller.read()));
+        System.out.println("Generated : " + messages.size() + " messages");
+        for (Message m : messages) {
             producer.send(new ProducerRecord("my_log_topic", controller.mapToJson(m))).get();
             counter++;
             if (counter % 10000 == 0) {

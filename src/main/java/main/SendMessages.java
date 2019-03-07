@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
 
 public class SendMessages {
-    public static void main(String[] args) throws SQLException, InterruptedException, ExecutionException, IOException, MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException {
+    public static void main(String[] args) throws SQLException, InterruptedException, ExecutionException, IOException, MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException, ClassNotFoundException {
         String confFile = "application-context.xml";
         ApplicationContext context = new ClassPathXmlApplicationContext(confFile);
         SpringTest sft = (SpringTest) context.getBean("springTest");

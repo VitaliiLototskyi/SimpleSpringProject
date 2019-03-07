@@ -5,4 +5,4 @@ RUN bash -c 'mkdir -p /data1/log/vlotot'
 
 RUN groupadd ta && useradd -d /opt -g ta -s /bin/bash ta
 RUN chown -R ta:ta /data1 /opt
-USER ta
+USER root

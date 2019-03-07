@@ -41,15 +41,22 @@ services:
   db:
     image: postgres
     ports:
-    - "5432:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
 
-#  app:
-#    build: .
-#    stdin_open: true
-#    tty: true
-#    ports:
-#      - "5000:5000"
+  app:
+    build: .
+    stdin_open: true
+    tty: true
+    user: "root"
+    depends_on:
+      - zookeeper
+      - kibana
+      - kafka
+      - db
+      - elasticsearch
+    ports:
+      - "5000:5000"
 
