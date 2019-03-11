@@ -6,10 +6,10 @@ services:
       - "2181:2181"
 
   kafka:
-    image: wurstmeister/kafka:2.11-0.10.2.2
+    image: wurstmeister/kafka:2.12-2.0.1
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "my_log_topic:1:1"
@@ -54,7 +54,6 @@ services:
     depends_on:
       - zookeeper
       - kibana
-      - kafka
       - db
       - elasticsearch
     ports:

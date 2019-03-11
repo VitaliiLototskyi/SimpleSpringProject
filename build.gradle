@@ -57,10 +57,10 @@ ospackage {
     }
 }
 
-task dockerBuild(type:Exec) {
+task dockerBuild(type: Exec) {
     commandLine 'docker-compose', '-f', 'docker-compose.yml', 'build'
 }
 
-task dockerStart(type:Exec) {
+task dockerStart(type: Exec) {
     commandLine 'docker-compose', '-f', 'docker-compose.yml', 'up'
 }
