@@ -1,5 +1,3 @@
-package main;
-
 import beans.SpringTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

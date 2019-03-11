@@ -82,7 +82,7 @@ public class SpringTest {
 
     public void receiveMsg() {
         System.out.println("Start receiving messages....");
-        ConsumerForKafka.runComsumer();
+        ConsumerForKafka.runConsumer();
         System.out.println("Completed");
     }
 

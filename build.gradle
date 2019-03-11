@@ -11,7 +11,7 @@ plugins {
 }
 
 application {
-    mainClassName = 'main.SendMessages'
+    mainClassName = 'SendMessages'
 }
 
 repositories {
@@ -41,9 +41,7 @@ ospackage {
     release = '1'
 //    arch = NOARCH
     os = LINUX
-    user 'ta'
-    permissionGroup 'ta'
-    packageGroup 'ta'
+    user 'appuser'
 
     requires('java')
 

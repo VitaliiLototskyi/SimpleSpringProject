@@ -28,7 +28,7 @@ public class ConsumerForKafka {
         return consumer;
     }
 
-    public static void runComsumer() {
+    public static void runConsumer() {
         final Consumer<Long, String> consumer = createConsumer();
         int counterForInstance = 0;
         final int giveUp = 100;

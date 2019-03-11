@@ -50,7 +50,7 @@ services:
     build: .
     stdin_open: true
     tty: true
-    user: "root"
+    user: "appuser"
     depends_on:
       - zookeeper
       - kibana
