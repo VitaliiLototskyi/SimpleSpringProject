@@ -35,6 +35,15 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.18.RELEASE'
 }
 
+jar {
+    manifest {
+        attributes (
+                "Main-Class": "SendMessages",
+                "Class-Path": configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+        )
+    }
+}
+
 ospackage {
     packageName = 'vlotot'
     version = '1.0.0'
@@ -48,10 +57,14 @@ ospackage {
     into '/opt/vlotot'
 
     from(jar.outputs.files) {
-        into 'lib'
+        into ''
     }
-    from('src/main/resources/scripts') {
+
+    from("$project.buildDir/scripts") {
         into 'bin'
+    }
+    from(configurations.runtime) {
+        into 'lib'
     }
 }
 
