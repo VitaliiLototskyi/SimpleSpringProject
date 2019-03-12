@@ -7,8 +7,8 @@ import java.util.Properties;
 public class ProducerForKafka {
     public static KafkaProducer<String, String> createProducer() {
         Properties prop = new Properties();
-        prop.put("bootstrap.servers", "localhost:9092");
-        prop.put("batch.size", "65536");
+        prop.put("bootstrap.servers", "localhost:9092"); //kafka:9092 to run in docker
+        prop.put("batch.size", "16384");
         prop.put("buffer.memory", 10000000);
         prop.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         prop.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");

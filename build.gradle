@@ -75,3 +75,22 @@ task dockerBuild(type: Exec) {
 task dockerStart(type: Exec) {
     commandLine 'docker-compose', '-f', 'docker-compose.yml', 'up'
 }
+
+task  ip() {
+    getLocalIP()
+}
+
+def getLocalIP() {
+    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces()
+    while (interfaces.hasMoreElements()) {
+        NetworkInterface nextNetworkInterface = interfaces.nextElement()
+        Enumeration<InetAddress> inetAddresses = nextNetworkInterface.getInetAddresses()
+        while (inetAddresses.hasMoreElements()) {
+            InetAddress localAddress = inetAddresses.nextElement()
+            if (!localAddress.isLinkLocalAddress()) {
+                print(localAddress.getHostAddress())
+            }
+        }
+    }
+    return InetAddress.getLocalHost().getHostAddress()
+}
