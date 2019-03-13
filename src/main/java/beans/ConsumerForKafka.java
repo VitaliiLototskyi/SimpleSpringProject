@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class ConsumerForKafka {
     private final static String TOPIC = "my_log_topic";
-    private final static String BOOTSTRAP_SERVERS = "localhost:9092"; // kafka:9092 to run in docker
+    private final static String BOOTSTRAP_SERVERS = "kafka:9092";// kafka:9092 to run in docker, otherwise localhost:9092
     private final static String CONSUMER_GROUP_ID = "KafkaConsumer";
 
     public static Consumer<Long, String> createConsumer() {
