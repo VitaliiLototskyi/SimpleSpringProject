@@ -29,7 +29,7 @@ dependencies {
     compile group: 'org.elasticsearch.client', name: 'transport', version: '5.6.0'
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: '5.6.0'
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.4.RELEASE'
-    compile group: 'org.apache.kafka', name: 'kafka_2.12', version: '1.0.1'
+    compile group: 'org.apache.kafka', name: 'kafka_2.12', version: '2.0.1'
     compile group: 'org.elasticsearch.client', name: 'x-pack-transport', version: '5.6.0'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.18.RELEASE'
@@ -37,7 +37,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes (
+        attributes(
                 "Main-Class": "SendMessages",
                 "Class-Path": configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
         )
@@ -78,3 +78,19 @@ task dockerStart(type: Exec) {
     commandLine 'docker-compose', '-f', 'docker-compose.yml', 'up'
 }
 
+def getLocalIP() {
+    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces()
+    while (interfaces.hasMoreElements()) {
+        NetworkInterface nextNetworkInterface = interfaces.nextElement()
+        Enumeration<InetAddress> inetAddresses = nextNetworkInterface.getInetAddresses()
+        while (inetAddresses.hasMoreElements()) {
+            InetAddress localAddress = inetAddresses.nextElement()
+            if (!localAddress.isLinkLocalAddress()) {
+                if (localAddress.getHostAddress().contains("172.17")) {
+                    return localAddress.getHostAddress()
+                }
+            }
+        }
+    }
+    return InetAddress.getLocalHost().getHostAddress()
+}

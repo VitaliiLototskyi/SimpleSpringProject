@@ -11,18 +11,18 @@ import java.util.Properties;
 
 public class ConsumerForKafka {
     private final static String TOPIC = "my_log_topic";
-    private final static String BOOTSTRAP_SERVERS = "kafka:9092";// kafka:9092 to run in docker, otherwise localhost:9092
+    private final static String BOOTSTRAP_SERVERS = "kafka:9092";
     private final static String CONSUMER_GROUP_ID = "KafkaConsumer";
 
     public static Consumer<Long, String> createConsumer() {
         Properties properties = new Properties();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, CONSUMER_GROUP_ID);
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
         final Consumer<Long, String> consumer = new KafkaConsumer<Long, String>(properties);
-
         consumer.subscribe(Collections.singletonList(TOPIC));
 
         return consumer;

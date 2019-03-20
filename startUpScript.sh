@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Press 1 to sendMessages or 2 to receiveMessages"
+echo "Press 1 to sendMessages or press 2 to receiveMessages"
 
 while :
     do
