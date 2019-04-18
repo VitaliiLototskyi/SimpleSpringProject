@@ -51,25 +51,25 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-
-  app_consumer:
-    container_name: consumer
-    build: .
-    stdin_open: true
-    tty: true
-    user: appuser
-    command: sh -c "/wait && java -cp SimpleSpringProject.jar ReceiveMessages"
-    environment:
-      WAIT_HOSTS: db:5432, kibana:5601, elasticsearch:9300, kafka:9092, zookeeper:2181
-
-  app_producer:
-    container_name: producer
-    build: .
-    stdin_open: true
-    tty: true
-    user: appuser
-    command:  sh -c "/wait && java -jar SimpleSpringProject.jar"
-    environment:
-      WAIT_HOSTS: db:5432, kibana:5601, elasticsearch:9300, kafka:9092, zookeeper:2181
-    depends_on:
-      - app_consumer
+#
+#  app_consumer:
+#    container_name: consumer
+#    build: .
+#    stdin_open: true
+#    tty: true
+#    user: appuser
+#    command: sh -c "/wait && java -cp SimpleSpringProject.jar ReceiveMessages"
+#    environment:
+#      WAIT_HOSTS: db:5432, kibana:5601, elasticsearch:9300, kafka:9092, zookeeper:2181
+#
+#  app_producer:
+#    container_name: producer
+#    build: .
+#    stdin_open: true
+#    tty: true
+#    user: appuser
+#    command:  sh -c "/wait && java -jar SimpleSpringProject.jar"
+#    environment:
+#      WAIT_HOSTS: db:5432, kibana:5601, elasticsearch:9300, kafka:9092, zookeeper:2181
+#    depends_on:
+#      - app_consumer

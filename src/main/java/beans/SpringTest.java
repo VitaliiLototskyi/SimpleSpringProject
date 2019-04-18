@@ -57,10 +57,11 @@ public class SpringTest {
 
     public void generateMessageForDB() throws SQLException, ClassNotFoundException {
         Message message = new Message();
-        for (Message m : message.generateMessages(3)) {
+        for (Message m : message.generateMessages(40)) {
             saveToPostgresDB(m);
         }
         System.out.println("Success");
+
     }
 
     public void saveToPostgresDB(Message message) throws SQLException, ClassNotFoundException {

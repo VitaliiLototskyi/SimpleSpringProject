@@ -5,6 +5,7 @@ import elastic.SimpleAgent;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -14,28 +15,28 @@ public class ConsumerForKafka {
     private final static String BOOTSTRAP_SERVERS = "kafka:9092";
     private final static String CONSUMER_GROUP_ID = "KafkaConsumer";
 
-    public static Consumer<Long, String> createConsumer() {
+    public static Consumer<String, String> createConsumer() {
         Properties properties = new Properties();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, CONSUMER_GROUP_ID);
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
-        final Consumer<Long, String> consumer = new KafkaConsumer<Long, String>(properties);
+        final Consumer<String, String> consumer = new KafkaConsumer<String, String>(properties);
         consumer.subscribe(Collections.singletonList(TOPIC));
 
         return consumer;
     }
 
     public static void runConsumer() {
-        final Consumer<Long, String> consumer = createConsumer();
+        final Consumer<String, String> consumer = createConsumer();
         int counterForInstance = 0;
         final int giveUp = 100;
         int noRecordsCount = 0;
         Record recordMBean = new Record();
         while (true) {
-            final ConsumerRecords<Long, String> consumerRecords = consumer.poll(1000);
+            final ConsumerRecords<String, String> consumerRecords = consumer.poll(1000);
             if (consumerRecords.count() == 0) {
                 noRecordsCount++;
                 if (noRecordsCount > giveUp) {
@@ -43,7 +44,7 @@ public class ConsumerForKafka {
                 } else continue;
             }
 
-            for (ConsumerRecord<Long, String> record : consumerRecords) {
+            for (ConsumerRecord<String, String> record : consumerRecords) {
                 System.out.printf("Consumer Record:(%s, %s, %d, %d)\n",
                         record.topic(), record.value(),
                         record.partition(), record.offset());

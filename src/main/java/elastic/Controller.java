@@ -58,7 +58,7 @@ public class Controller {
         TransportClient client = new PreBuiltXPackTransportClient(settings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
 
-        IndexResponse response = client.prepareIndex(indexName, "event")
+        IndexResponse response = client.prepareIndex(indexName, "kafkaESType")
                 .setSource(json, XContentType.JSON).get();
         client.close();
 
