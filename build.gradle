@@ -36,6 +36,8 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.18.RELEASE'
     compile group: 'org.apache.kafka', name: 'kafka-streams', version: '1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
+
 
 }
 
